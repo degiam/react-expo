@@ -8,12 +8,20 @@ import { Text as DefaultText, View as DefaultView } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from './useColorScheme';
 
+import styles, { theme } from '@/constants/Typography';
+
 type ThemeProps = {
   lightColor?: string;
   darkColor?: string;
 };
 
-export type TextProps = ThemeProps & DefaultText['props'];
+type TypeProps = {
+  heading?: boolean;
+  size?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p';
+  italic?: boolean;
+};
+
+export type TextProps = ThemeProps & TypeProps & DefaultText['props'];
 export type ViewProps = ThemeProps & DefaultView['props'];
 
 export function useThemeColor(
@@ -31,10 +39,27 @@ export function useThemeColor(
 }
 
 export function Text(props: TextProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const {
+    style,
+    lightColor,
+    darkColor,
+    heading,
+    size = 'p',
+    italic = false,
+    ...otherProps
+  } = props;
 
-  return <DefaultText style={[{ color }, style]} {...otherProps} />;
+  const color = useThemeColor(
+    {
+      light: !heading && !lightColor ? theme.color.light : lightColor,
+      dark: !heading && !darkColor ? theme.color.dark : darkColor,
+    },
+  'text');
+
+  const textSize = styles[size] || styles.p;
+  const textItalic: any = italic ? { fontStyle: 'italic' } : {};
+
+  return <DefaultText style={[{ color }, textSize, textItalic, style]} {...otherProps} />;
 }
 
 export function View(props: ViewProps) {

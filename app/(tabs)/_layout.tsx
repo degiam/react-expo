@@ -1,22 +1,19 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Platform, Pressable } from 'react-native';
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import { IconBrandSafari, IconDots, IconMessageChatbot, IconQrcode } from '@tabler/icons-react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
+  const styleTabIcon = {
+    marginBottom: Platform.OS === 'web' ? 0 : -6,
+  }
 
   return (
     <Tabs
@@ -25,19 +22,26 @@ export default function TabLayout() {
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
-      }}>
+        tabBarShowLabel: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Beranda',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Degiam App',
+          tabBarIcon: ({ color }) => (
+            <IconBrandSafari
+              size={28}
+              color={color}
+              style={styleTabIcon}
+            />
+          ),
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
                 {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
+                  <IconDots
+                    size={24}
                     color={Colors[colorScheme ?? 'light'].text}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
@@ -48,17 +52,29 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="about"
+        name="qrcode"
         options={{
-          title: 'Tentang',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'QR Code',
+          tabBarIcon: ({ color }) => (
+            <IconQrcode
+              size={28}
+              color={color}
+              style={styleTabIcon}
+            />
+          ),
         }}
       />
       <Tabs.Screen
-        name="contact"
+        name="chat"
         options={{
-          title: 'Hubungi',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Chat',
+          tabBarIcon: ({ color }) => (
+            <IconMessageChatbot
+              size={28}
+              color={color}
+              style={styleTabIcon}
+            />
+          ),
         }}
       />
     </Tabs>

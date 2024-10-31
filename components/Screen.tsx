@@ -1,23 +1,61 @@
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, ScrollView, StyleProp, StyleSheet, useColorScheme, ViewStyle } from 'react-native';
 
 import { View } from '@/components/Themed';
 
-function Title({ title }: {title?: string}) {
+type ContainerProps = {
+  title?: string;
+  scrollable?: boolean;
+  style?: StyleProp<ViewStyle>;
+  children: React.ReactNode;
+};
+
+export function Container({ title, scrollable = false, style, children }: ContainerProps) {
   if (Platform.OS === 'web') {
-    if (title) {
-      document.title = title;
-    } else {
-      document.title = 'Aplikasi Uji Coba';
-    }
+    document.title = title || 'Degiam App';
   }
 
-  return true;
+  const colorScheme = useColorScheme();
+
+  if (scrollable) {
+    return (
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContainer,
+          style,
+        ]}
+        style={{
+          backgroundColor: colorScheme === 'dark' && Platform.OS !== 'web' ? 'black' : 'white',
+        }}
+      >
+        {children}
+      </ScrollView>
+    )
+  }
+
+  return (
+    <View style={[
+      styles.container,
+      style,
+    ]}>
+      {children}
+    </View>
+  );
 }
 
-export function Container({ title, children }: {title?: string, children: React.ReactNode}) {
+type SectionProps = {
+  style?: StyleProp<ViewStyle>;
+  padding?: boolean;
+  children: React.ReactNode;
+};
+
+export function Section({ style, padding = true, children }: SectionProps) {
   return (
-    <View style={styles.container}>
-      <Title title={title} />
+    <View style={[
+      style,
+      {
+        padding: padding ? 24 : 0,
+      }
+    ]}>
       {children}
     </View>
   );
@@ -26,7 +64,10 @@ export function Container({ title, children }: {title?: string, children: React.
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scrollContainer: {
+    flexGrow: 1,
     justifyContent: 'center',
   },
 })
