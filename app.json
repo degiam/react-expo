@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.degiam.reactexpo"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +32,18 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0e95c4ab-045c-498c-9fb4-9c4ff76f1268"
+      }
+    },
+    "owner": "degiam",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0e95c4ab-045c-498c-9fb4-9c4ff76f1268"
     }
   }
 }

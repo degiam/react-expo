@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Text, View } from '@/components/Themed';
 import { Container, Section } from '@/components/Screen';
 
+import axios from 'axios';
+
 type QuoteProps = {
   content: string;
   author: string;
@@ -13,18 +15,18 @@ export default function HomeScreen() {
 
   useEffect(() => {
     const getQuote = async () => {
-      try {
-        const response = await fetch('https://zenquotes.io/api/quotes');
-        const result = await response.json();
+      axios.get('https://zenquotes.io/api/quotes')
+      .then((result: any) => {
         if (result.length > 0) {
           setQuote({
             content: result[0].q,
             author: result[0].a,
           });
         }
-      } catch (error) {
+      })
+      .catch(error => {
         console.log(error);
-      }
+      });
     }
 
     getQuote();
