@@ -1,5 +1,3 @@
-import { StyleSheet } from 'react-native';
-
 export const theme = {
   color: {
     light: 'rgba(0,0,0,0.5)',
@@ -7,7 +5,7 @@ export const theme = {
   },
 };
 
-const styles = StyleSheet.create({
+const styles = {
   h1: {
     fontSize: 54,
     lineHeight: 61,
@@ -43,6 +41,13 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '400',
   },
-});
+  sm: {
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: '400',
+  },
+} as const;
 
 export default styles;
+
+export type TextSize = keyof typeof styles;

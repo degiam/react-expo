@@ -30,7 +30,7 @@ export function Button(props: ButtonProps) {
     flexDirection: icon && iconPosition === 'left' ? 'row' : 'row-reverse',
     alignItems: 'center',
     justifyContent: align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : align === 'around' ? 'space-around' : align === 'evenly' ? 'space-evenly' : align === 'between' ? 'space-between' : 'center',
-    paddingVertical: 12,
+    paddingVertical: 14,
     paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 1,
@@ -48,7 +48,7 @@ export function Button(props: ButtonProps) {
       style={({ pressed }) => [
         buttonStyle,
         style,
-        { transform: pressed ? [{ translateY: 2 }] : [{ translateY: 0 }] },
+        { transform: pressed ? [{ translateY: 1 }] : [{ translateY: 0 }] },
       ]}
       {...otherProps}
     >

@@ -24,10 +24,9 @@ export default function ChatScreen() {
     <Container>
       <Section>
         <Text heading size='h4' align='center'>Chat Link</Text>
-        <View style={{ marginTop: 20, }}>
-          <Text align='center' italic>
-            Work in progress{dots.padEnd(3, ' ')}
-          </Text>
+        <View style={{ marginTop: 20, flexDirection: 'row', justifyContent: 'center' }}>
+          <Text align='center' italic>Work in progress</Text>
+          <Text align='center' italic style={{ minWidth: 20, textAlign: 'left' }}> {dots}</Text>
         </View>
       </Section>
     </Container>

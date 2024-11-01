@@ -61,6 +61,7 @@ export default function HomeScreen() {
       <Section>
         <View style={{
           gap: 20,
+          marginBottom: 30,
         }}>
           <Button
             title='QR Code'

@@ -1,10 +1,10 @@
 import { Text as DefaultText } from 'react-native';
 import { ThemeProps, useThemeColor } from '@/components/useThemeColor';
-import styles, { theme } from '@/constants/Typography';
+import styles, { theme, TextSize } from '@/constants/Typography';
 
 type TypeProps = {
   heading?: boolean;
-  size?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p';
+  size?: TextSize;
   italic?: boolean;
   align?: 'left' | 'right' | 'center' | 'justify';
 };
@@ -32,7 +32,7 @@ export function Text(props: TextProps) {
 
   const textSize = styles[size] || styles.p;
   const textItalic: any = italic ? { fontStyle: 'italic' } : {};
-  const textAlign: any = { textAlign: align === 'right' ? 'right' : align === 'center' ? 'center' : align === 'justify' ? 'justify' : 'center' };
+  const textAlign: any = { textAlign: align === 'right' ? 'right' : align === 'center' ? 'center' : align === 'justify' ? 'justify' : 'left' };
 
   return <DefaultText style={[{ color }, textSize, textItalic, textAlign, style]} {...otherProps} />;
 }

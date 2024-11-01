@@ -49,7 +49,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="qrcode"
         options={{
-          title: 'QR Code',
+          title: 'QR Code Generator',
           tabBarIcon: ({ color }) => (
             <IconQrcode
               size={28}
