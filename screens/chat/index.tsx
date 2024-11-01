@@ -1,32 +1,35 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
 
-import { Text, View } from '@/components/Themed';
 import { Container, Section } from '@/components/Screen';
+import { View } from '@/components/View';
+import { Text } from '@/components/Text';
 
 export default function ChatScreen() {
+  const [dots, setDots] = useState('');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prev: any) => {
+        if (prev.length < 3) {
+          return prev + '.';
+        }
+        return '';
+      });
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Container>
       <Section>
-        <Text
-          style={styles.getStartedText}
-          lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
-          Exercitation pariatur aute exercitation veniam ex est sunt.
-        </Text>
+        <Text heading size='h4' align='center'>Chat Link</Text>
+        <View style={{ marginTop: 20, }}>
+          <Text align='center' italic>
+            Work in progress{dots.padEnd(3, ' ')}
+          </Text>
+        </View>
       </Section>
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  getStartedText: {
-    fontSize: 17,
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-});

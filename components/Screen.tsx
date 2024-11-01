@@ -1,6 +1,5 @@
 import { Platform, ScrollView, StyleProp, StyleSheet, useColorScheme, ViewStyle } from 'react-native';
-
-import { View } from '@/components/Themed';
+import { View } from '@/components/View';
 
 type ContainerProps = {
   title?: string;

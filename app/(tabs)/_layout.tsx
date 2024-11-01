@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Tabs } from 'expo-router';
-import { Platform, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
@@ -10,10 +10,6 @@ import { IconBrandSafari, IconDots, IconMessageChatbot, IconQrcode } from '@tabl
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
-  const styleTabIcon = {
-    marginBottom: Platform.OS === 'web' ? 0 : -6,
-  }
 
   return (
     <Tabs
@@ -33,7 +29,6 @@ export default function TabLayout() {
             <IconBrandSafari
               size={28}
               color={color}
-              style={styleTabIcon}
             />
           ),
           headerRight: () => (
@@ -59,7 +54,6 @@ export default function TabLayout() {
             <IconQrcode
               size={28}
               color={color}
-              style={styleTabIcon}
             />
           ),
         }}
@@ -72,7 +66,6 @@ export default function TabLayout() {
             <IconMessageChatbot
               size={28}
               color={color}
-              style={styleTabIcon}
             />
           ),
         }}
