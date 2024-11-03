@@ -1,5 +1,5 @@
 import { Text as DefaultText } from 'react-native';
-import { ThemeProps, useThemeColor } from '@/components/useThemeColor';
+import { ThemeProps, useThemeColor } from '@/hooks/useThemeColor';
 import styles, { theme, TextSize } from '@/constants/Typography';
 
 type TypeProps = {

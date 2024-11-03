@@ -1,19 +1,21 @@
-const styles = {
+import { colorPrimary, colorSecondary } from '@/constants/Colors';
+
+const getStyles = (colorScheme: 'light' | 'dark') => ({
   fill: {
     default: {
-      color: '#888',
-      borderColor: '#eee',
-      backgroundColor: '#eee',
+      color: colorScheme === 'light' ? '#888' : 'white',
+      borderColor: colorScheme === 'light' ? '#eee' : '#333',
+      backgroundColor: colorScheme === 'light' ? '#eee' : '#333',
     },
     primary: {
       color: '#fff',
-      borderColor: '#802b9f',
-      backgroundColor: '#802b9f',
+      borderColor: colorPrimary,
+      backgroundColor: colorPrimary,
     },
     secondary: {
       color: '#fff',
-      borderColor: '#3595b3',
-      backgroundColor: '#3595b3',
+      borderColor: colorSecondary,
+      backgroundColor: colorSecondary,
     },
   },
   outline: {
@@ -23,19 +25,19 @@ const styles = {
       backgroundColor: 'transparent',
     },
     primary: {
-      color: '#802b9f',
-      borderColor: '#802b9f',
+      color: colorPrimary,
+      borderColor: colorPrimary,
       backgroundColor: 'transparent',
     },
     secondary: {
-      color: '#3595b3',
-      borderColor: '#3595b3',
+      color: colorSecondary,
+      borderColor: colorSecondary,
       backgroundColor: 'transparent',
     },
   },
-} as const;
+});
 
-export default styles;
+export default getStyles;
 
-export type ButtonType = keyof typeof styles;
-export type ButtonVariant = keyof typeof styles.fill;
+export type ButtonType = keyof ReturnType<typeof getStyles>;
+export type ButtonVariant = keyof ReturnType<typeof getStyles>['fill'];

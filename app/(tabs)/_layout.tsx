@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Pressable, useColorScheme } from 'react-native';
 
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import { useClientOnlyValue } from '@/hooks/useClientOnlyValue';
 
 import { IconBrandSafari, IconDots, IconMessageChatbot, IconQrcode } from '@tabler/icons-react-native';
 

@@ -18,7 +18,7 @@ export function Container({ title, scrollable = false, align, style, children }:
 
   if (scrollable) {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'dark' && Platform.OS !== 'web' ? 'black' : 'white', }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? 'white' : 'black', }}>
         <ScrollView
           contentContainerStyle={[
             style,
@@ -28,7 +28,7 @@ export function Container({ title, scrollable = false, align, style, children }:
             }
           ]}
           style={{
-            backgroundColor: colorScheme === 'dark' && Platform.OS !== 'web' ? 'black' : 'white',
+            backgroundColor: colorScheme === 'light' ? 'white' : 'black',
           }}
         >
           {children}
@@ -38,7 +38,7 @@ export function Container({ title, scrollable = false, align, style, children }:
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'dark' && Platform.OS !== 'web' ? 'black' : 'white', }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? 'white' : 'black', }}>
       <View style={[
         style,
         {

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Image } from 'react-native';
+import { ActivityIndicator, Image, useColorScheme } from 'react-native';
+
+import { colorPrimary } from '@/constants/Colors';
 
 import { Container, Section } from '@/components/Screen';
 import { View } from '@/components/View';
@@ -9,6 +11,8 @@ import { Input, Select } from '@/components/Form';
 import { IconDownload, IconReload } from '@tabler/icons-react-native';
 
 export default function QrcodeScreen() {
+  const colorScheme = useColorScheme();
+
   const [text, setText] = useState('');
   const [size, setSize] = useState('');
   const [qrCode, setQrCode] = useState('');
@@ -18,7 +22,7 @@ export default function QrcodeScreen() {
   };
 
   const handleDownload = () => {
-    console.warn('unduh');
+    console.warn('Fitur belum tersedia');
   };
 
   const handleReload = () => {
@@ -60,6 +64,7 @@ export default function QrcodeScreen() {
       :
         <Section style={{ gap: 24 }}>
           <View style={{
+            position: 'relative',
             backgroundColor: 'white',
             padding: 16,
             margin: 'auto',
@@ -71,18 +76,32 @@ export default function QrcodeScreen() {
               style={{
                 width: 250,
                 height: 250,
+                position: 'relative',
+                zIndex: 1,
+              }}
+            />
+            <ActivityIndicator
+              size='large'
+              color={colorPrimary}
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                margin: 'auto',
               }}
             />
           </View>
           <Button
             title='Unduh'
-            variant='secondary'
+            variant='primary'
             icon={<IconDownload size={24} color={'white'} />}
             onPress={handleDownload}
           />
           <Button
             title='Buat Lagi'
-            icon={<IconReload size={24} color={'#999'} />}
+            icon={<IconReload size={24} color={colorScheme === 'light' ? '#999' : 'white'} />}
             onPress={handleReload}
           />
         </Section>

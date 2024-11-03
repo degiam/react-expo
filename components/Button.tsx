@@ -1,6 +1,6 @@
-import { Pressable, StyleProp, ViewStyle } from 'react-native';
+import { Pressable, StyleProp, useColorScheme, ViewStyle } from 'react-native';
 import { Text } from '@/components/Text';
-import styles, { ButtonType, ButtonVariant } from '@/constants/Button';
+import getStyles, { ButtonType, ButtonVariant } from '@/constants/Button';
 
 type ButtonProps = {
   title: string;
@@ -24,6 +24,9 @@ export function Button(props: ButtonProps) {
     style,
     ...otherProps
   } = props;
+
+  const colorScheme: any = useColorScheme();
+  const styles = getStyles(colorScheme);
 
   const button = styles[type][variant];
   const buttonStyle: any = {

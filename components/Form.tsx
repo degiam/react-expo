@@ -1,9 +1,50 @@
-import { StyleProp, TextInput, ViewStyle } from 'react-native';
+import { StyleProp, TextInput, useColorScheme, ViewStyle } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 import { View } from '@/components/View';
 import { Text } from '@/components/Text';
 import { IconSelector } from '@tabler/icons-react-native';
+import { useState } from 'react';
+
+type FieldStyleProps = {
+  type: 'text' | 'select';
+  isFocused: boolean;
+}
+
+function useFieldStyle(props: FieldStyleProps) {
+  const { type, isFocused } = props;
+
+  const colorScheme = useColorScheme();
+
+  const style = {
+    fontSize: 17,
+    minHeight: 50,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    color: colorScheme === 'light' ? 'black' : 'white',
+    backgroundColor: colorScheme === 'light' ? 'white' : '#222',
+    borderColor: isFocused
+      ? '#802b9f'
+      : colorScheme === 'light' ? '#ccc' : '#333',
+    outline: isFocused
+      ? '1px solid #802b9f'
+      : 'none',
+  }
+
+  if (type === 'select') {
+    return {
+      ...style,
+      paddingEnd: 32,
+      appearance: 'none' as const,
+    }
+  }
+
+  return {
+    ...style,
+  };
+}
 
 export function Fieldset({ children }: { children: React.ReactNode }) {
   return (
@@ -12,17 +53,6 @@ export function Fieldset({ children }: { children: React.ReactNode }) {
     </View>
   )
 }
-
-const fieldStyle = {
-  fontSize: 17,
-  minHeight: 50,
-  paddingVertical: 12,
-  paddingHorizontal: 16,
-  borderRadius: 12,
-  borderWidth: 1,
-  borderColor: '#ccc',
-  backgroundColor: 'white',
-};
 
 type InputProps = {
   label: string;
@@ -44,6 +74,9 @@ export function Input(props: InputProps) {
     ...otherProps
   } = props;
 
+  const [isFocused, setIsFocused] = useState(false);
+  const inputStyle = useFieldStyle({ type: 'text', isFocused });
+
   const handleValueChange = (value: string) => {
     if (onChangeText) {
       onChangeText(value);
@@ -58,8 +91,10 @@ export function Input(props: InputProps) {
         value={value}
         defaultValue={defaultValue}
         onChangeText={handleValueChange}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         style={[
-          fieldStyle,
+          inputStyle,
           style,
         ]}
         {...otherProps}
@@ -67,19 +102,6 @@ export function Input(props: InputProps) {
     </Fieldset>
   );
 }
-
-const fieldSelectStyle = {
-  fontSize: 17,
-  minHeight: 50,
-  paddingVertical: 12,
-  paddingHorizontal: 16,
-  borderRadius: 12,
-  borderWidth: 1,
-  borderColor: '#ccc',
-  backgroundColor: 'white',
-  paddingEnd: 32,
-  appearance: 'none',
-};
 
 type SelectProps = {
   label: string;
@@ -101,6 +123,9 @@ export function Select(props: SelectProps) {
     onValueChange,
   } = props;
 
+  const [isFocused, setIsFocused] = useState(false);
+  const inputStyle = useFieldStyle({ type: 'select', isFocused });
+
   const handleValueChange = (value: string) => {
     const index = options.findIndex(option => option.value === value);
     if (onValueChange) {
@@ -113,14 +138,16 @@ export function Select(props: SelectProps) {
       <Text size='sm'>{label}</Text>
       <View style={{ position: 'relative' }}>
         <RNPickerSelect
-          onValueChange={handleValueChange}
-          value={value}
           placeholder={{ label: placeholder, value: '' }}
+          value={value}
           items={options}
+          onValueChange={handleValueChange}
+          onOpen={() => setIsFocused(true)}
+          onClose={() => setIsFocused(false)}
           style={{
-            inputWeb: fieldSelectStyle,
-            inputIOS: fieldSelectStyle,
-            inputAndroid: fieldSelectStyle,
+            inputWeb: inputStyle,
+            inputIOS: inputStyle,
+            inputAndroid: inputStyle,
           }}
         />
         <IconSelector size={18} color={'#aaa'} style={{ position: 'absolute', top: 16, right: 12, }} />
