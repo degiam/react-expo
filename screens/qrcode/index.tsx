@@ -9,6 +9,7 @@ import { Button } from '@/components/Button';
 import { Input, Select } from '@/components/Form';
 
 import { IconDownload, IconReload } from '@tabler/icons-react-native';
+import { Text, TextMono } from '@/components/Text';
 
 export default function QrcodeScreen() {
   const colorScheme = useColorScheme();
@@ -63,6 +64,17 @@ export default function QrcodeScreen() {
         </Section>
       :
         <Section style={{ gap: 24 }}>
+          <View style={{ gap: 6 }}>
+            <Text style={{ textAlign: 'center' }}>{text}</Text>
+            <View style={{
+              marginHorizontal: 'auto',
+              paddingHorizontal: 14,
+              paddingVertical: 6,
+              borderRadius: 16,
+            }} lightColor='#eee' darkColor='#444'>
+              <TextMono size='sm' lightColor='#999' darkColor='white'>{size}</TextMono>
+            </View>
+          </View>
           <View style={{
             position: 'relative',
             backgroundColor: 'white',

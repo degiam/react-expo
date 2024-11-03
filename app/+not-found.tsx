@@ -1,40 +1,22 @@
 import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
 
-import { Text, View } from '@/components/_Themed';
+import { Container, Section } from '@/components/Screen';
+import { Text } from '@/components/Text';
+
+import { colorLink } from '@/constants/Colors';
 
 export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />
-      <View style={styles.container}>
-        <Text style={styles.title}>This screen doesn't exist.</Text>
-
-        <Link href="/" style={styles.link}>
-          <Text style={styles.linkText}>Go to home screen!</Text>
-        </Link>
-      </View>
+      <Container>
+        <Section>
+          <Text heading size='h5' align='center'>Laman tidak ditemukan</Text>
+          <Link href='/' style={{ marginHorizontal: 'auto', marginVertical: 25 }}>
+            <Text size='sm' style={{ color: colorLink, textDecorationLine: 'underline' }}>Kembali ke beranda</Text>
+          </Link>
+        </Section>
+      </Container>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-  linkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
-});

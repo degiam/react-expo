@@ -1,11 +1,29 @@
 import React from 'react';
-import { Link, Tabs } from 'expo-router';
 import { Pressable, useColorScheme } from 'react-native';
+import { Link, Tabs } from 'expo-router';
 
 import Colors from '@/constants/Colors';
 import { useClientOnlyValue } from '@/hooks/useClientOnlyValue';
 
 import { IconBrandSafari, IconDots, IconMessageChatbot, IconQrcode } from '@tabler/icons-react-native';
+
+function AboutModal() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <Link href="/modal" asChild>
+      <Pressable>
+        {({ pressed }) => (
+          <IconDots
+            size={24}
+            color={Colors[colorScheme ?? 'light'].text}
+            style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+          />
+        )}
+      </Pressable>
+    </Link>
+  )
+}
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -30,19 +48,7 @@ export default function TabLayout() {
               color={color}
             />
           ),
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <IconDots
-                    size={24}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          headerRight: AboutModal,
         }}
       />
       <Tabs.Screen
@@ -55,6 +61,7 @@ export default function TabLayout() {
               color={color}
             />
           ),
+          headerRight: AboutModal,
         }}
       />
       <Tabs.Screen
@@ -67,6 +74,7 @@ export default function TabLayout() {
               color={color}
             />
           ),
+          headerRight: AboutModal,
         }}
       />
     </Tabs>

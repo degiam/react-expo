@@ -1,5 +1,6 @@
 export const colorPrimary = '#802b9f';
 export const colorSecondary = '#3595b3';
+export const colorLink = '#2199ff';
 
 export default {
   light: {
