@@ -13,6 +13,9 @@ import { IconDownload, IconReload } from '@tabler/icons-react-native';
 
 import { useForm, Controller } from 'react-hook-form';
 
+import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+
 export default function QrcodeScreen() {
   const colorScheme = useColorScheme();
 
@@ -28,8 +31,25 @@ export default function QrcodeScreen() {
     setQrCode(qrUrl);
   };
 
-  const handleDownload = () => {
-    console.warn('Fitur belum tersedia');
+  const handleDownload = async () => {
+    if (!qrCode) return;
+
+    try {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Izin akses untuk menyimpan gambar diperlukan.');
+        return;
+      }
+
+      const fileUri = `${FileSystem.documentDirectory}qrcode.png`;
+      await FileSystem.downloadAsync(qrCode, fileUri);
+
+      await MediaLibrary.saveToLibraryAsync(fileUri);
+      alert('QR Code berhasil diunduh dan disimpan ke galeri.');
+    } catch (error) {
+      console.error(error);
+      alert('Gagal mengunduh QR Code.');
+    }
   };
 
   const handleReload = () => {
