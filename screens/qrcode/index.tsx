@@ -83,10 +83,10 @@ export default function QrcodeScreen() {
                   },
                 },
               }}
-              render={({ field: { onChange, value = '' } }) => (
+              render={({ field: { onChange } }) => (
                 <Input
-                  label='Masukkan URL'
-                  placeholder='https://'
+                  label='Website URL'
+                  placeholder='https://...'
                   onChangeText={(value) => { onChange(value); setText(value); }}
                   value={text}
                   keyboardType='url'
@@ -105,7 +105,7 @@ export default function QrcodeScreen() {
               rules={{
                 required: 'Ukuran harus dipilih',
               }}
-              render={({ field: { onChange, value = '' } }) => (
+              render={({ field: { onChange } }) => (
                 <Select
                   label='Pilih Ukuran'
                   placeholder='Silakan pilih...'

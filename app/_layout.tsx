@@ -1,5 +1,7 @@
+import { Button } from '@/components/Button';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { IconArrowLeft } from '@tabler/icons-react-native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -50,8 +52,26 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-        <Stack.Screen name='modal' options={{ headerShown: true, presentation: 'modal' }} />
+        <Stack.Screen
+          name='(tabs)'
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='modal'
+          options={{
+            headerShown: true,
+            presentation: 'modal',
+          }}
+        />
+        <Stack.Screen
+          name='chat-detail'
+          options={{
+            headerShown: true,
+            headerBackButtonMenuEnabled: true,
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );

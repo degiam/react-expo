@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { Image, Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { StatusBar } from 'expo-status-bar';
-import { useNavigation } from 'expo-router';
 
 import { Container, Section } from '@/components/Screen';
 import { View } from '@/components/View';
 import { Text } from '@/components/Text';
+import { TextMono } from '@/components/Text';
 import { ExternalLink } from '@/components/ExternalLink';
 
-import { TextMono } from '@/components/Text';
 import { colorLink } from '@/constants/Colors';
 
 export default function PopupScreen() {

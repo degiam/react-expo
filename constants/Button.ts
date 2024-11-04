@@ -2,6 +2,11 @@ import { colorPrimary, colorSecondary } from '@/constants/Colors';
 
 const getStyles = (colorScheme: 'light' | 'dark') => ({
   fill: {
+    plain: {
+      color: colorScheme === 'light' ? 'black' : 'white',
+      borderColor: 'transparent',
+      backgroundColor: 'transparent',
+    },
     default: {
       color: colorScheme === 'light' ? '#888' : 'white',
       borderColor: colorScheme === 'light' ? '#eee' : '#333',
@@ -19,6 +24,11 @@ const getStyles = (colorScheme: 'light' | 'dark') => ({
     },
   },
   outline: {
+    plain: {
+      color: colorScheme === 'light' ? 'black' : 'white',
+      borderColor: 'transparent',
+      backgroundColor: 'transparent',
+    },
     default: {
       color: '#aaa',
       borderColor: '#aaa',
