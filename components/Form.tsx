@@ -67,7 +67,7 @@ export function Fieldset({ children }: { children: React.ReactNode }) {
 }
 
 type InputProps = {
-  label: string;
+  label?: string;
   value?: string;
   defaultValue?: string;
   placeholder?: string;

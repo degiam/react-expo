@@ -40,7 +40,7 @@ export function Button(props: ButtonProps) {
     alignItems: 'center',
     justifyContent: align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : align === 'around' ? 'space-around' : align === 'evenly' ? 'space-evenly' : align === 'between' ? 'space-between' : 'center',
     paddingVertical: 14,
-    paddingHorizontal: 16,
+    paddingHorizontal: 28,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: button.borderColor,

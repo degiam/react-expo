@@ -70,6 +70,8 @@ function RootLayoutNav() {
           options={{
             headerShown: true,
             headerBackButtonMenuEnabled: true,
+            headerTitle: 'Chat Link',
+            headerBackTitle: 'Kembali'
           }}
         />
       </Stack>
