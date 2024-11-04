@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, useColorScheme } from 'react-native';
+import { Platform, Pressable, useColorScheme } from 'react-native';
 import { Link, Tabs } from 'expo-router';
 
 import Colors from '@/constants/Colors';
@@ -11,7 +11,7 @@ function AboutModal() {
   const colorScheme = useColorScheme();
 
   return (
-    <Link href="/modal" asChild>
+    <Link href='/modal' asChild>
       <Pressable>
         {({ pressed }) => (
           <IconDots
@@ -27,6 +27,7 @@ function AboutModal() {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const iconSize = Platform.OS === 'android' ? 24 : 28;
 
   return (
     <Tabs
@@ -39,12 +40,12 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name='index'
         options={{
           title: 'Degiam App',
           tabBarIcon: ({ color }) => (
             <IconBrandSafari
-              size={28}
+              size={iconSize}
               color={color}
             />
           ),
@@ -52,12 +53,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="qrcode"
+        name='qrcode'
         options={{
           title: 'QR Code Generator',
           tabBarIcon: ({ color }) => (
             <IconQrcode
-              size={28}
+              size={iconSize}
               color={color}
             />
           ),
@@ -65,12 +66,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="chat"
+        name='chat'
         options={{
           title: 'Chat',
           tabBarIcon: ({ color }) => (
             <IconMessageChatbot
-              size={28}
+              size={iconSize}
               color={color}
             />
           ),

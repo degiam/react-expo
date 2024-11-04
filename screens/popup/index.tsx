@@ -16,7 +16,7 @@ export default function PopupScreen() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    navigation.setOptions({ title: 'Tentang Kami' });
+    navigation.setOptions({ title: 'Tentang Aplikasi' });
   }, [navigation]);
 
   return (

@@ -1,13 +1,14 @@
-import { StyleProp, TextInput, useColorScheme, ViewStyle } from 'react-native';
+import { useState } from 'react';
+import { KeyboardTypeOptions, Platform, StyleProp, TextInput, useColorScheme, ViewStyle } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 import { View } from '@/components/View';
 import { Text } from '@/components/Text';
+
 import { IconSelector } from '@tabler/icons-react-native';
-import { useState } from 'react';
 
 type FieldStyleProps = {
-  type: 'text' | 'select';
+  type: 'text' | 'select' | 'border' | 'placeholder';
   isFocused: boolean;
 }
 
@@ -17,7 +18,7 @@ function useFieldStyle(props: FieldStyleProps) {
   const colorScheme = useColorScheme();
 
   const style = {
-    fontSize: 17,
+    fontSize: Platform.OS === 'android' ? 15 : 17,
     minHeight: 50,
     paddingVertical: 12,
     paddingHorizontal: 16,
@@ -41,6 +42,17 @@ function useFieldStyle(props: FieldStyleProps) {
     }
   }
 
+  if (type === 'border') {
+    return {
+      borderColor: isFocused
+        ? '#802b9f'
+        : colorScheme === 'light' ? '#ccc' : '#333',
+      borderWidth: 1,
+      borderRadius: 12,
+      overflow: 'hidden' as const,
+    }
+  }
+
   return {
     ...style,
   };
@@ -61,6 +73,7 @@ type InputProps = {
   placeholder?: string;
   style?: StyleProp<ViewStyle>;
   onChangeText?: (value: string) => void;
+  keyboardType?: KeyboardTypeOptions;
 };
 
 export function Input(props: InputProps) {
@@ -71,8 +84,12 @@ export function Input(props: InputProps) {
     placeholder,
     style,
     onChangeText,
+    keyboardType = 'default',
     ...otherProps
   } = props;
+
+  const colorScheme = useColorScheme();
+  const placeholderStyle = colorScheme === 'light' ? '#ccc' : '#666';
 
   const [isFocused, setIsFocused] = useState(false);
   const inputStyle = useFieldStyle({ type: 'text', isFocused });
@@ -88,6 +105,7 @@ export function Input(props: InputProps) {
       <Text size='sm'>{label}</Text>
       <TextInput
         placeholder={placeholder}
+        placeholderTextColor={placeholderStyle}
         value={value}
         defaultValue={defaultValue}
         onChangeText={handleValueChange}
@@ -97,6 +115,8 @@ export function Input(props: InputProps) {
           inputStyle,
           style,
         ]}
+        keyboardType={keyboardType}
+        autoCapitalize={keyboardType === 'url' ? 'none' : 'sentences'}
         {...otherProps}
       />
     </Fieldset>
@@ -123,8 +143,12 @@ export function Select(props: SelectProps) {
     onValueChange,
   } = props;
 
+  const colorScheme = useColorScheme();
+  const placeholderStyle = colorScheme === 'light' ? '#ccc' : '#666';
+
   const [isFocused, setIsFocused] = useState(false);
   const inputStyle = useFieldStyle({ type: 'select', isFocused });
+  const borderStyle = useFieldStyle({ type: 'border', isFocused });
 
   const handleValueChange = (value: string) => {
     const index = options.findIndex(option => option.value === value);
@@ -148,9 +172,18 @@ export function Select(props: SelectProps) {
             inputWeb: inputStyle,
             inputIOS: inputStyle,
             inputAndroid: inputStyle,
+            viewContainer: borderStyle,
+            placeholder: {
+              color: placeholderStyle,
+            },
           }}
+          useNativeAndroidPickerStyle={false}
         />
-        <IconSelector size={18} color={'#aaa'} style={{ position: 'absolute', top: 16, right: 12, }} />
+        <IconSelector size={18} color={'#aaa'} style={{
+          position: 'absolute',
+          top: Platform.OS === 'android' ? 18 : 17,
+          right: 12,
+        }} />
       </View>
     </Fieldset>
   );

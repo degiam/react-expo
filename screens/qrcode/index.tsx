@@ -5,11 +5,13 @@ import { colorPrimary } from '@/constants/Colors';
 
 import { Container, Section } from '@/components/Screen';
 import { View } from '@/components/View';
+import { Text, TextMono } from '@/components/Text';
 import { Button } from '@/components/Button';
 import { Input, Select } from '@/components/Form';
 
 import { IconDownload, IconReload } from '@tabler/icons-react-native';
-import { Text, TextMono } from '@/components/Text';
+
+import { useForm, Controller } from 'react-hook-form';
 
 export default function QrcodeScreen() {
   const colorScheme = useColorScheme();
@@ -18,8 +20,12 @@ export default function QrcodeScreen() {
   const [size, setSize] = useState('');
   const [qrCode, setQrCode] = useState('');
 
+  const { control, handleSubmit, formState: { errors } } = useForm();
+
   const handleGenerate = async () => {
-    setQrCode(`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}&size=${size}`);
+    if (!text || !size) return;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}&size=${size}`;
+    setQrCode(qrUrl);
   };
 
   const handleDownload = () => {
@@ -29,34 +35,81 @@ export default function QrcodeScreen() {
   const handleReload = () => {
     setText('');
     setQrCode('');
+    setSize('');
   };
 
   return (
     <Container scrollable>
       {!qrCode ?
         <Section style={{ gap: 24 }}>
-          <Input
-            label='Masukkan URL'
-            placeholder='https://'
-            onChangeText={setText}
-          />
-          <Select
-            label='Pilih Ukuran'
-            placeholder='Pilih salah satu'
-            onValueChange={setSize}
-            value={size}
-            options={[
-              { label: '512 pixel', value: '512x512' },
-              { label: '720 pixel', value: '720x720' },
-              { label: '1080 pixel', value: '1080x1080' },
-              { label: '1440 pixel', value: '1440x1440' },
-              { label: '2160 pixel', value: '2160x2160' },
-            ]}
-          />
+          <View>
+            <Controller
+              control={control}
+              name='url'
+              rules={{
+                required: 'URL harus diisi',
+                validate: {
+                  isValidURL: value => {
+                    const urlPattern = new RegExp(
+                      '^(https?:\\/\\/)' + // Protocol
+                      '((([a-z0-9]\\w*)\\.)+([a-z]{2,})|' + // Domain name
+                      'localhost|' + // localhost...
+                      '\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|' + // IP
+                      '\\[?[a-f0-9]*:[a-f0-9:%.]+\\])' + // IPv6
+                      '(\\:\\d+)?(\\/[-a-z0-9%_.~+]*)*' + // Port and path
+                      '(\\?[;&a-z0-9%_.~+=-]*)?' + // Query string
+                      '(\\#[-a-z0-9_]*)?$','i'); // Fragment locator
+                    return urlPattern.test(value) || 'URL tidak valid, contoh valid: https://domainsaya.com';
+                  },
+                },
+              }}
+              render={({ field: { onChange, value = '' } }) => (
+                <Input
+                  label='Masukkan URL'
+                  placeholder='https://'
+                  onChangeText={(value) => { onChange(value); setText(value); }}
+                  value={text}
+                  keyboardType='url'
+                />
+              )}
+            />
+            {errors.url && typeof errors.url.message === 'string' && (
+              <Text size='sm' style={{ color: 'red', marginTop: 5 }}>{errors.url.message}</Text>
+            )}
+          </View>
+
+          <View>
+            <Controller
+              control={control}
+              name='size'
+              rules={{
+                required: 'Ukuran harus dipilih',
+              }}
+              render={({ field: { onChange, value = '' } }) => (
+                <Select
+                  label='Pilih Ukuran'
+                  placeholder='Silakan pilih...'
+                  onValueChange={(value) => { onChange(value); setSize(value); }}
+                  value={size}
+                  options={[
+                    { label: '512 pixel', value: '512x512' },
+                    { label: '720 pixel', value: '720x720' },
+                    { label: '1080 pixel', value: '1080x1080' },
+                    { label: '1440 pixel', value: '1440x1440' },
+                    { label: '2160 pixel', value: '2160x2160' },
+                  ]}
+                />
+              )}
+            />
+            {errors.size && typeof errors.size.message === 'string' && (
+              <Text size='sm' style={{ color: 'red', marginTop: 5 }}>{errors.size.message}</Text>
+            )}
+          </View>
+
           <Button
             title='Buat Sekarang'
             variant='primary'
-            onPress={handleGenerate}
+            onPress={handleSubmit(handleGenerate)}
             style={{
               marginTop: 4,
             }}
@@ -64,17 +117,6 @@ export default function QrcodeScreen() {
         </Section>
       :
         <Section style={{ gap: 24 }}>
-          <View style={{ gap: 6 }}>
-            <Text style={{ textAlign: 'center' }}>{text}</Text>
-            <View style={{
-              marginHorizontal: 'auto',
-              paddingHorizontal: 14,
-              paddingVertical: 6,
-              borderRadius: 16,
-            }} lightColor='#eee' darkColor='#444'>
-              <TextMono size='sm' lightColor='#999' darkColor='white'>{size}</TextMono>
-            </View>
-          </View>
           <View style={{
             position: 'relative',
             backgroundColor: 'white',
@@ -105,6 +147,19 @@ export default function QrcodeScreen() {
               }}
             />
           </View>
+
+          <View style={{ gap: 6 }}>
+            <Text style={{ textAlign: 'center' }}>{text}</Text>
+            <View style={{
+              marginHorizontal: 'auto',
+              paddingHorizontal: 14,
+              paddingVertical: 6,
+              borderRadius: 16,
+            }} lightColor='#eee' darkColor='#444'>
+              <TextMono size='sm' lightColor='#999' darkColor='white'>{size}</TextMono>
+            </View>
+          </View>
+
           <Button
             title='Unduh'
             variant='primary'
